@@ -5,6 +5,8 @@ using System.Linq;
 using UnityEngine;
 
 public class Globe : MonoBehaviour {
+    public float maxYAngle = 30f;
+    public bool rotationIsLimited = false;
     public float rotationSpeed;
 
     public List<Tile> tiles = new List<Tile>();
@@ -35,17 +37,15 @@ public class Globe : MonoBehaviour {
         return closestHit.point;
     }
 
-    void limitRotation() {
+    bool getIsBadRotation() {
+        if (!rotationIsLimited) {
+            return false;
+        }
+
         Vector3 northPole = transform.rotation * Vector3.up;
         Vector3 axis = Vector3.Cross(northPole, Vector3.up);
         float angle = Vector3.SignedAngle(Vector3.up, northPole, axis);
-        float absAngle = Mathf.Abs(angle);
-        
-        if (absAngle > 30) {
-            float newAngle = angle < 0 ? -30 : 30;
-            float angleChange = newAngle - angle;
-            transform.Rotate(axis, angleChange);
-        }
+        return Mathf.Abs(angle) > maxYAngle;
     }
 
     void Update() {
@@ -55,22 +55,23 @@ public class Globe : MonoBehaviour {
         bool mouseIsClicked = Input.GetMouseButton(0);
 
         if (mouseIsClicked) {
-            Debug.Log(mouseIsClicked);
+            Quaternion previousRotation = transform.rotation;
+
             bool isFacingForward = getIsFacingForward();
-            
+
             float verticalMousePositionChange = Vector3.Dot(mousePositionChange, Camera.main.transform.up);
             float latitudeDiff = verticalMousePositionChange * rotationSpeed;
-            // Vector3 eastPole = transform.rotation * Vector3.right;
-            // transform.Rotate(eastPole, isFacingForward ? latitudeDiff : -latitudeDiff, Space.World);
             transform.Rotate(Camera.main.transform.right, verticalMousePositionChange * rotationSpeed, Space.World);
 
             float horizontalMousePositionChange = Vector3.Dot(mousePositionChange, Camera.main.transform.right);
             float longitudeDiff =  -horizontalMousePositionChange * rotationSpeed;
-            // Vector3 northPole = transform.rotation * Vector3.up;
-            // transform.Rotate(northPole, longitudeDiff, Space.World);
             transform.Rotate(Vector3.up, -horizontalMousePositionChange * rotationSpeed, Space.World);
 
-            // limitRotation();
+            bool isBadRotation = getIsBadRotation();
+
+            if (isBadRotation) {
+                transform.rotation = previousRotation;
+            }
         }
 
         previousMousePosition = mousePosition;
