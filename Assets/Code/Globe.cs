@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 
 public class Globe : MonoBehaviour {
+    public TextAsset jsonFile;
     public float maxYAngle = 30f;
     public bool rotationIsLimited = false;
     public float rotationSpeed;
@@ -39,6 +40,12 @@ public class Globe : MonoBehaviour {
         Vector3 axis = Vector3.Cross(northPole, Vector3.up);
         float angle = Vector3.SignedAngle(Vector3.up, northPole, axis);
         return Mathf.Abs(angle) > maxYAngle;
+    }
+
+    void Awake() {
+        string json = jsonFile.text;
+        GlobeDTO globeDTO = JsonUtility.FromJson<GlobeDTO>(json);
+        tiles = globeDTO.getTiles();
     }
 
     void Update() {
