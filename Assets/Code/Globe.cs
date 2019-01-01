@@ -13,13 +13,6 @@ public class Globe : MonoBehaviour {
 
     private Vector3 previousMousePosition = Vector3.zero;
 
-    bool getIsFacingForward() {
-        Vector3 eastPole = transform.rotation * Vector3.right;
-        Vector3 northPole = transform.rotation * Vector3.up;
-        float yAngle = Vector3.SignedAngle(Vector3.right, eastPole, northPole);
-        return Mathf.Abs(yAngle) < 90;
-    }
-
     public Vector3? getMousePositionOnShell() {
         Ray mousePositionRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit[] rayHits = Physics.RaycastAll(mousePositionRay, Mathf.Infinity);
@@ -57,15 +50,13 @@ public class Globe : MonoBehaviour {
         if (mouseIsClicked) {
             Quaternion previousRotation = transform.rotation;
 
-            bool isFacingForward = getIsFacingForward();
-
             float verticalMousePositionChange = Vector3.Dot(mousePositionChange, Camera.main.transform.up);
             float latitudeDiff = verticalMousePositionChange * rotationSpeed;
-            transform.Rotate(Camera.main.transform.right, verticalMousePositionChange * rotationSpeed, Space.World);
+            transform.Rotate(Camera.main.transform.right, latitudeDiff, Space.World);
 
             float horizontalMousePositionChange = Vector3.Dot(mousePositionChange, Camera.main.transform.right);
             float longitudeDiff =  -horizontalMousePositionChange * rotationSpeed;
-            transform.Rotate(Vector3.up, -horizontalMousePositionChange * rotationSpeed, Space.World);
+            transform.Rotate(Vector3.up, longitudeDiff, Space.World);
 
             bool isBadRotation = getIsBadRotation();
 
