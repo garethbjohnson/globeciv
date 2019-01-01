@@ -5,9 +5,9 @@ using System.Linq;
 using UnityEngine;
 
 public class Unit : MonoBehaviour {
+    public Globe globe;
     public float hoverMultiplier = 1.1f;
     public int tileIndex = 0;
-    public Globe globe;
 
     Tile tile;
 
@@ -20,7 +20,7 @@ public class Unit : MonoBehaviour {
     }
 
     void moveToMousePosition() {
-        Nullable<Vector3> mousePositionOnGlobe = globe.getMousePositionOnShell();
+        Vector3? mousePositionOnGlobe = globe.getMousePositionOnShell();
 
         if (mousePositionOnGlobe == null) {
             return;
@@ -41,6 +41,12 @@ public class Unit : MonoBehaviour {
         }
 
         tile = closestTile;
+    }
+
+    void Awake() {
+        GameObject globeObject = GameObject.FindWithTag("Globe");
+        var GlobeType = typeof(Globe);
+        globe = globeObject.GetComponent(GlobeType) as Globe;
     }
 
     void Start() {

@@ -8,7 +8,7 @@ public class Globe : MonoBehaviour {
     public TextAsset jsonFile;
     public float maxYAngle = 30f;
     public bool rotationIsLimited = false;
-    public float rotationSpeed;
+    public float rotationSpeed = 0.25f;
 
     public List<Tile> tiles = new List<Tile>();
 
