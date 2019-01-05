@@ -396,6 +396,18 @@ MonoBehaviour:
   maxYAngle: 30
   rotationIsLimited: 0
   rotationSpeed: 0.25
+--- !u!122 &554357587
+Halo:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 554357581}
+  m_Enabled: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4294939392
+  m_Size: 4
 --- !u!1001 &731527782
 PrefabInstance:
   m_ObjectHideFlags: 0
