@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Globe
   - GlobeShell
+  - Space
   layers:
   - Default
   - TransparentFX
