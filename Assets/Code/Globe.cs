@@ -6,13 +6,7 @@ using UnityEngine;
 
 public class Globe : MonoBehaviour {
     public TextAsset jsonFile;
-    public float maxYAngle = 30f;
-    public bool rotationIsLimited = false;
-    public float rotationSpeed = 0.25f;
-
     public List<Tile> tiles = new List<Tile>();
-
-    private Vector3 previousMousePosition = Vector3.zero;
 
     public Vector3? getMousePositionOnShell() {
         Ray mousePositionRay = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -31,47 +25,9 @@ public class Globe : MonoBehaviour {
         return closestHit.point;
     }
 
-    bool getIsBadRotation() {
-        if (!rotationIsLimited) {
-            return false;
-        }
-
-        Vector3 northPole = transform.rotation * Vector3.up;
-        Vector3 axis = Vector3.Cross(northPole, Vector3.up);
-        float angle = Vector3.SignedAngle(Vector3.up, northPole, axis);
-        return Mathf.Abs(angle) > maxYAngle;
-    }
-
     void Awake() {
         string json = jsonFile.text;
         GlobeDTO globeDTO = JsonUtility.FromJson<GlobeDTO>(json);
         tiles = globeDTO.getTiles();
-    }
-
-    void Update() {
-        Vector3 mousePosition = Input.mousePosition;
-        Vector3 mousePositionChange = mousePosition - previousMousePosition;
-
-        bool mouseIsClicked = Input.GetMouseButton(0);
-
-        if (mouseIsClicked) {
-            Quaternion previousRotation = transform.rotation;
-
-            float verticalMousePositionChange = Vector3.Dot(mousePositionChange, Camera.main.transform.up);
-            float latitudeDiff = verticalMousePositionChange * rotationSpeed;
-            transform.Rotate(Camera.main.transform.right, latitudeDiff, Space.World);
-
-            float horizontalMousePositionChange = Vector3.Dot(mousePositionChange, Camera.main.transform.right);
-            float longitudeDiff =  -horizontalMousePositionChange * rotationSpeed;
-            transform.Rotate(Vector3.up, longitudeDiff, Space.World);
-
-            bool isBadRotation = getIsBadRotation();
-
-            if (isBadRotation) {
-                transform.rotation = previousRotation;
-            }
-        }
-
-        previousMousePosition = mousePosition;
     }
 }

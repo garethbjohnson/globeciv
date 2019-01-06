@@ -44,9 +44,7 @@ public class Unit : MonoBehaviour {
     }
 
     void Awake() {
-        GameObject globeObject = GameObject.FindWithTag("Globe");
-        var GlobeType = typeof(Globe);
-        globe = globeObject.GetComponent(GlobeType) as Globe;
+        globe = GlobeUtils.getGlobe();
     }
 
     void Start() {
