@@ -200,9 +200,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jsonFile: {fileID: 4900000, guid: 6d9054fb07d5e4bb6a5b1c23bbb36abe, type: 3}
-  maxYAngle: 30
-  rotationIsLimited: 0
-  rotationSpeed: 0.25
 --- !u!1001 &509205310
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -391,7 +388,7 @@ MonoBehaviour:
   minZoom: 1
   rotationSpeed: 20
   zoom: 5
-  zoomSensitivity: 1
+  zoomSensitivity: 0.5
 --- !u!1 &554357581 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: e293c9045bd87438689d3bbe81c59abc,
@@ -411,9 +408,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jsonFile: {fileID: 4900000, guid: 73b6606d75b3c4280bebdfe9c657fd60, type: 3}
-  maxYAngle: 30
-  rotationIsLimited: 0
-  rotationSpeed: 0.25
 --- !u!122 &554357587
 Halo:
   m_ObjectHideFlags: 0
@@ -550,7 +544,7 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 0
+  m_DrawMode: 2
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
